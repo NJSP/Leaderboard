@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.11/signalr.min.js"></script>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Leaderboard</h1>
+    <table id="leaderboard">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Player ID</th>
+                <th>Score</th>
+                <th>Timestamp</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Leaderboard data will be inserted here -->
+        </tbody>
+    </table>
+
+    <script>
+        const connection = new signalR.HubConnectionBuilder()
+            .withUrl("/scoresHub")
+            .build();
+
+        connection.on("ReceiveScoreUpdate", function (score) {
+            fetchLeaderboard();
+        });
+
+        connection.start().catch(function (err) {
+            return console.error(err.toString());
+        });
+
+        function fetchLeaderboard() {
+            $.get("/api/scores/top?n=10", function (data) {
+                const tbody = $("#leaderboard tbody");
+                tbody.empty();
+                data.forEach((score, index) => {
+                    const row = `<tr>
+                            <td>${index + 1}</td>
+                            <td>${score.playerName}</td>
+                            <td>${score.value}</td>
+                            <td>${new Date(score.timestamp).toLocaleString()}</td>
+                        </tr>`;
+                    tbody.append(row);
+                });
+            });
+        }
+
+        // Fetch initial leaderboard data
+        fetchLeaderboard();
+    </script>
+</body>
+</html>

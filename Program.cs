@@ -1,6 +1,6 @@
-
 using Leaderboard.Data;
 using Microsoft.EntityFrameworkCore;
+using Leaderboard;
 
 namespace Leaderboard
 {
@@ -11,14 +11,12 @@ namespace Leaderboard
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-
             builder.Services.AddControllers();
             builder.Services.AddDbContext<LeaderboardContext>(options =>
                 options.UseSqlite("Data Source=leaderboard.db")); // Use SQLite
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddSignalR();
+            builder.Services.AddSignalR(); // Add SignalR
 
             var app = builder.Build();
 
@@ -36,12 +34,11 @@ namespace Leaderboard
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
+            app.UseStaticFiles(); // Enable serving static files
+            app.UseDefaultFiles(); // Enable default file mapping (e.g., index.html)
             app.MapControllers();
-            app.MapHub<ScoresHub>("/scoresHub");
+            app.MapHub<ScoresHub>("/scoresHub"); // Map SignalR hub
 
             app.Run();
         }

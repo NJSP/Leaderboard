@@ -10,13 +10,12 @@ namespace Leaderboard
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddControllers();
             builder.Services.AddDbContext<LeaderboardContext>(options =>
-                options.UseSqlite("Data Source=leaderboard.db")); // Use SQLite
+                options.UseSqlite("Data Source=leaderboard.db"));
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddSignalR(); // Add SignalR
+            builder.Services.AddSignalR();
 
 
             var app = builder.Build();
@@ -27,7 +26,6 @@ namespace Leaderboard
                 db.Database.Migrate();
             }
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -36,10 +34,10 @@ namespace Leaderboard
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
-            app.UseStaticFiles(); // Enable serving static files
-            app.UseDefaultFiles(); // Enable default file mapping (e.g., index.html)
+            app.UseStaticFiles();
+            app.UseDefaultFiles();
             app.MapControllers();
-            app.MapHub<ScoresHub>("/scoresHub"); // Map SignalR hub
+            app.MapHub<ScoresHub>("/scoresHub");
 
             app.Run();
         }

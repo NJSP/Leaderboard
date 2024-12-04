@@ -18,6 +18,7 @@ namespace Leaderboard
             builder.Services.AddSwaggerGen();
             builder.Services.AddSignalR(); // Add SignalR
 
+
             var app = builder.Build();
 
             using (var scope = app.Services.CreateScope())

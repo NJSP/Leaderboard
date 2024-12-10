@@ -1,10 +1,11 @@
-﻿namespace Leaderboard.Models
+﻿using Leaderboard.Models;
+
+public class Score
 {
-    public class Score
-    {
-        public Guid PlayerId { get; set; } // Unique identifier for each player
-        public string? playerName { get; set; } // The player's name
-        public int Value { get; set; } // The player's score
-        public DateTime Timestamp { get; set; } // When the score was set
-    }
+    public Guid PlayerId { get; set; }
+    public string? playerName { get; set; }
+    public int Value { get; set; }
+    public DateTime Timestamp { get; set; }
+    public string UserId { get; set; }
+    public ApplicationUser User { get; set; }
 }

@@ -1,9 +1,10 @@
 ﻿using Leaderboard.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Leaderboard.Data
 {
-    public class LeaderboardContext : DbContext
+    public class LeaderboardContext : IdentityDbContext<ApplicationUser>
     {
         public LeaderboardContext(DbContextOptions<LeaderboardContext> options) : base(options) { }
 

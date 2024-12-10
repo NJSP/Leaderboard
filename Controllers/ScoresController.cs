@@ -1,9 +1,11 @@
 ﻿using Leaderboard;
 using Leaderboard.Data;
 using Leaderboard.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace LeaderboardAPI.Controllers
 {
@@ -22,8 +24,20 @@ namespace LeaderboardAPI.Controllers
 
         // POST /api/scores
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> AddOrUpdateScore([FromBody] Score score)
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _context.Users.FindAsync(userId);
+
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
+            score.UserId = userId;
+            score.playerName = user.PlayerName;
+
             var existingScore = await _context.Scores.FindAsync(score.PlayerId, score.Timestamp);
 
             if (existingScore != null)

@@ -6,6 +6,6 @@ public class Score
     public string? playerName { get; set; }
     public int Value { get; set; }
     public DateTime Timestamp { get; set; }
-    public string UserId { get; set; }
-    public ApplicationUser User { get; set; }
+    public required string UserId { get; set; }
+    public required ApplicationUser User { get; set; }
 }

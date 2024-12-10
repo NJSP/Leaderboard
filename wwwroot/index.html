@@ -21,10 +21,22 @@
         th {
             background-color: #f2f2f2;
         }
+
+        .button-container {
+            margin-bottom: 20px;
+        }
+
+            .button-container button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
     </style>
 </head>
 <body>
     <h1>Leaderboard</h1>
+    <div class="button-container">
+        <button onclick="window.location.href='login.html'">Login</button>
+    </div>
     <table id="leaderboard">
         <thead>
             <tr>
@@ -58,11 +70,11 @@
                 tbody.empty();
                 data.forEach((score, index) => {
                     const row = `<tr>
-                            <td>${index + 1}</td>
-                            <td>${score.playerName}</td>
-                            <td>${score.value}</td>
-                            <td>${new Date(score.timestamp).toLocaleString()}</td>
-                        </tr>`;
+                                <td>${index + 1}</td>
+                                <td>${score.playerName}</td>
+                                <td>${score.value}</td>
+                                <td>${new Date(score.timestamp).toLocaleString()}</td>
+                            </tr>`;
                     tbody.append(row);
                 });
             });

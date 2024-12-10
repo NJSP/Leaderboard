@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+            .container input {
+                width: 100%;
+                padding: 10px;
+                margin: 10px 0;
+            }
+
+            .container button {
+                padding: 10px 20px;
+                font-size: 16px;
+            }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Register</h1>
+        <form id="registerForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <script>$(document).ready(function() {
+            $("#registerForm").submit(function(event) {
+                event.preventDefault();
+                const username = $("#username").val();
+                const email = $("#email").val();
+                const password = $("#password").val();
+
+                $.ajax({
+                    url: "/api/auth/register",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ username: username, email: email, password: password }),
+                    success: function(response) {
+                        alert("Registration successful!");
+                        // Redirect to the login page
+                        window.location.href = "login.html";
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Registration failed: " + xhr.responseText);
+                    }
+                });
+            });
+        });</script>
+</body>
+</html>

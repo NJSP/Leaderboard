@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Leaderboard.Migrations
 {
     [DbContext(typeof(LeaderboardContext))]
-    [Migration("20241210172516_AuthAdded")]
-    partial class AuthAdded
+    [Migration("20241210180250_AddIdentityTables")]
+    partial class AddIdentityTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
